@@ -1,0 +1,1 @@
+export const spring_api = "https://spring-backend-ira.herokuapp.com"

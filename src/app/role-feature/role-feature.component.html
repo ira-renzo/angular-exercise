@@ -1,0 +1,77 @@
+<p-table #table [value]="roles" dataKey="id" editMode="row" responsiveLayout="scroll">
+    <ng-template pTemplate="header">
+        <tr>
+            <th *ngFor="let column of columns" pSortableColumn="{{column.field}}">
+                {{column.header}}
+                <p-sortIcon field="{{column.field}}"></p-sortIcon>
+            </th>
+            <th>Actions</th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-role let-editing="editing" let-ri="rowIndex">
+        <tr [pEditableRow]="role">
+            <td style="width: 30%">
+                {{role[columns[0].field]}}
+            </td>
+            <td style="width: 30%">
+                <p-cellEditor>
+                    <ng-template pTemplate="input">
+                        <input pInputText type="text" [(ngModel)]="role[columns[1].field]">
+                    </ng-template>
+                    <ng-template pTemplate="output">
+                        {{role[columns[1].field]}}
+                    </ng-template>
+                </p-cellEditor>
+            </td>
+            <td>
+                <button *ngIf="!editing"
+                        pButton
+                        pInitEditableRow
+                        class="p-button-raised p-button-info action-button"
+                        label="Edit"
+                        (click)="editClicked(role)"
+                ></button>
+                <button *ngIf="!editing"
+                        pButton
+                        class="p-button-raised p-button-danger action-button"
+                        label="Delete"
+                        (click)="deleteClicked(role)"
+                ></button>
+                <button
+                        *ngIf="editing"
+                        pButton
+                        pSaveEditableRow
+                        class="p-button-raised p-button-success action-button"
+                        style="margin-right: 1em"
+                        label="Save"
+                        (click)="saveClicked(role)"
+                ></button>
+                <button *ngIf="editing"
+                        pButton
+                        pCancelEditableRow
+                        class="p-button-raised p-button-danger action-button"
+                        label="Cancel"
+                        (click)="cancelClicked(role, ri)"
+                ></button>
+            </td>
+        </tr>
+    </ng-template>
+</p-table>
+
+<button pButton label="Add Role" class="p-button-raised add-button" (click)="addRoleFormVisible = true"></button>
+
+<p-dialog header="Add Role" [(visible)]="addRoleFormVisible">
+    <input type="text"
+           pInputText
+           [(ngModel)]="addRoleFormInput"
+           placeholder="Role Name"
+    />
+    <button pButton
+            class="p-button-raised submit-button"
+            label="Submit"
+            [disabled]="submitFormButtonDisabled"
+            (click)="submitAddRoleForm()"
+    ></button>
+</p-dialog>
+
+<p-toast></p-toast>

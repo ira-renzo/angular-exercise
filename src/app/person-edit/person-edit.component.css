@@ -1,0 +1,55 @@
+app-person-edit {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+app-person-edit button[label=Cancel], app-person-edit button[label=Submit] {
+    margin-top: 1em;
+    width: 80%;
+}
+
+app-person-edit button[label=Delete] {
+    margin-left: 1em;
+}
+
+app-person-edit .input-spacing {
+    display: inline-block;
+    margin-right: 1em;
+}
+
+app-person-edit .input-spacing:last-child {
+    margin-right: 0;
+}
+
+app-person-edit .input-spacing label {
+    display: block;
+    margin-bottom: 0.5em;
+}
+
+app-person-edit div.p-accordion-tab {
+    margin-block: 1em;
+}
+
+app-person-edit div.p-accordion-content {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+app-person-edit [header=Contacts] div.p-accordion-content {
+    flex-direction: column;
+}
+
+app-person-edit div.contacts {
+    display: flex;
+    margin-block: 0.3em;
+}
+
+app-person-edit p-dropdown {
+    width: 15%;
+    padding-right: 1em;
+}
+
+app-person-edit button[label="Add Contact"] {
+    margin-top: 1.25rem;
+}

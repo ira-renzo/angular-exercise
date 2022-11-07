@@ -1,0 +1,57 @@
+<p-accordion [multiple]="true">
+
+    <p-accordionTab header="Name" [selected]="true">
+        <div class="input-spacing" *ngFor="let field of nameFields">
+            <label>{{field.label}}</label>
+            <input type="text" pInputText [(ngModel)]="person.name[field.name]">
+        </div>
+    </p-accordionTab>
+
+    <p-accordionTab header="Address" [selected]="true">
+        <div class="input-spacing" *ngFor="let field of addressFields">
+            <label>{{field.label}}</label>
+            <ng-container *ngIf="field.name != 'city' else cityInput">
+                <p-inputNumber [(ngModel)]="person.address[field.name]" [useGrouping]=false></p-inputNumber>
+            </ng-container>
+            <ng-template #cityInput>
+                <input type="text" pInputText [(ngModel)]="person.address[field.name]"/>
+            </ng-template>
+        </div>
+    </p-accordionTab>
+
+    <p-accordionTab header="Miscellaneous" [selected]="true">
+        <div class="input-spacing" *ngFor="let field of miscFields">
+            <label>{{field.label}}</label>
+            <p-calendar [(ngModel)]="person[field.name]" dataType="string" dateFormat="yy-mm-dd"></p-calendar>
+        </div>
+        <div class="input-spacing">
+            <label>GWA</label>
+            <p-inputNumber [(ngModel)]="person['gwa']" [useGrouping]=false [maxFractionDigits]="3"></p-inputNumber>
+        </div>
+        <div class="input-spacing" style="display: flex; flex-direction: column; margin-left: 2em">
+            <label>Currently Employed</label>
+            <div style="flex-grow: 1; display: flex; justify-content: center">
+                <p-checkbox [(ngModel)]="person['currentlyEmployed']" [binary]="true"></p-checkbox>
+            </div>
+        </div>
+    </p-accordionTab>
+
+    <p-accordionTab header="Contacts" [selected]="true">
+        <div class="contacts" *ngFor="let contact of person['contacts']">
+            <p-dropdown [options]="contactTypes" [(ngModel)]="contact['type']" optionLabel="name" optionValue="code"></p-dropdown>
+            <input type="text" pInputText [(ngModel)]="contact['value']" style="flex-grow: 1"/>
+            <button pButton class="p-button-raised p-button-danger" label="Delete" (click)="deleteContact(contact)"></button>
+        </div>
+        <button pButton class="p-button-raised p-button-info" label="Add Contact" (click)="addContact()"></button>
+    </p-accordionTab>
+
+    <p-accordionTab header="Roles" [selected]="true">
+        Not Yet Implemented
+    </p-accordionTab>
+
+</p-accordion>
+
+<button pButton class="p-button-raised p-button-danger" label="Cancel" routerLink="/person"></button>
+<button pButton class="p-button-raised" label="Submit" [disabled]="submitButtonDisabled" (click)="submit()"></button>
+
+<p-toast></p-toast>

@@ -4,6 +4,10 @@
 @import "primeng/resources/themes/lara-light-teal/theme.css";
 @import "primeng/resources/primeng.min.css";
 
+.p-menubar {
+    margin-bottom: 8px;
+}
+
 .add-button {
     position: fixed;
     bottom: 2em;
@@ -20,4 +24,8 @@
 .action-button {
     margin-right: 1em;
     width: 7em;
+}
+
+p-dropdown div {
+    width: 100%;
 }

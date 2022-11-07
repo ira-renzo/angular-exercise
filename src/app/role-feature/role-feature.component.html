@@ -1,4 +1,4 @@
-<p-table #table [value]="roles" dataKey="id" editMode="row" responsiveLayout="scroll">
+<p-table [value]="roles" dataKey="id" editMode="row" responsiveLayout="scroll">
     <ng-template pTemplate="header">
         <tr>
             <th *ngFor="let column of columns" pSortableColumn="{{column.field}}">

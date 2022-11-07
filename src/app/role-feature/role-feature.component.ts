@@ -1,12 +1,12 @@
 import {Component, OnInit} from '@angular/core';
 import {RoleService} from "../../services/role.service";
 import {Role} from "../../models/role";
-import {MessageService} from "primeng/api";
+import {ToastService} from "../../services/toast.service";
 
 @Component({
     selector: 'app-role-feature',
     templateUrl: './role-feature.component.html',
-    providers: [MessageService]
+    providers: [ToastService]
 })
 export class RoleFeatureComponent implements OnInit {
 
@@ -20,7 +20,7 @@ export class RoleFeatureComponent implements OnInit {
     addRoleFormInput: string = "";
     submitFormButtonDisabled: boolean = false;
 
-    constructor(private roleService: RoleService, private messageService: MessageService) {
+    constructor(private roleService: RoleService, private toastService: ToastService) {
     }
 
     ngOnInit(): void {
@@ -40,14 +40,14 @@ export class RoleFeatureComponent implements OnInit {
     deleteClicked(role: Role) {
         this.roleService.deleteRole(role)
             .subscribe(res => {
-                this.sendToast(res["result"], "Deleted", () => this.getRoles())
+                this.toastService.sendToast(res["result"], {successKeyword: "Deleted", successCallback: () => this.getRoles()})
             })
     }
 
     saveClicked(role: Role) {
         this.roleService.updateRole(role)
             .subscribe(res => {
-                this.sendToast(res["result"], "Updated")
+                this.toastService.sendToast(res["result"], {successKeyword: "Updated"})
             })
     }
 
@@ -60,21 +60,15 @@ export class RoleFeatureComponent implements OnInit {
         this.submitFormButtonDisabled = true
         this.roleService.addRole(this.addRoleFormInput)
             .subscribe(res => {
-                this.sendToast(res["result"], "Saved", () => {
-                    this.getRoles()
-                    this.addRoleFormVisible = false
+                this.toastService.sendToast(res["result"], {
+                    successKeyword: "Saved",
+                    successCallback: () => {
+                        this.getRoles()
+                        this.addRoleFormVisible = false
+                    }
                 })
                 this.submitFormButtonDisabled = false
             })
-    }
-
-    sendToast(message: string, successKeyword: string = "", successCallback: Function = () => undefined) {
-        if (successKeyword == "") {
-            this.messageService.add({severity: 'info', summary: message});
-        } else if (message.includes(successKeyword)) {
-            this.messageService.add({severity: 'success', summary: message});
-            successCallback()
-        } else this.messageService.add({severity: 'error', summary: message});
     }
 
 }

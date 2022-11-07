@@ -8,7 +8,6 @@ import {AppComponent} from './app.component';
 import {ApiListComponent} from './api-list/api-list.component';
 import {RoleFeatureComponent} from './role-feature/role-feature.component';
 import {PersonFeatureComponent} from './person-feature/person-feature.component';
-import {ContactFeatureComponent} from './contact-feature/contact-feature.component';
 
 import {MenubarModule} from "primeng/menubar";
 import {TableModule} from "primeng/table";
@@ -17,6 +16,13 @@ import {DialogModule} from "primeng/dialog";
 import {ToastModule} from "primeng/toast";
 import {InputTextModule} from "primeng/inputtext";
 import {FormsModule} from "@angular/forms";
+import {MessageService} from "primeng/api";
+import {InputNumberModule} from "primeng/inputnumber";
+import {CalendarModule} from "primeng/calendar";
+import {CheckboxModule} from "primeng/checkbox";
+import {DropdownModule} from "primeng/dropdown";
+import {PersonEditComponent} from './person-edit/person-edit.component';
+import {AccordionModule} from "primeng/accordion";
 
 @NgModule({
     declarations: [
@@ -24,7 +30,7 @@ import {FormsModule} from "@angular/forms";
         ApiListComponent,
         RoleFeatureComponent,
         PersonFeatureComponent,
-        ContactFeatureComponent
+        PersonEditComponent
     ],
     imports: [
         BrowserModule,
@@ -38,8 +44,13 @@ import {FormsModule} from "@angular/forms";
         ToastModule,
         InputTextModule,
         FormsModule,
+        InputNumberModule,
+        CalendarModule,
+        CheckboxModule,
+        DropdownModule,
+        AccordionModule,
     ],
-    providers: [],
+    providers: [MessageService],
     bootstrap: [AppComponent]
 })
 export class AppModule {

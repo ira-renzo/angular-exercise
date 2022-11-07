@@ -103,40 +103,38 @@ export class PersonEditComponent implements OnInit {
     submit() {
         this.submitButtonDisabled = true
 
-        // Collection Properties
-        for (let contact of this.person.contacts) {
-            if (contact.id == undefined) this.personService.addContact(this.person.id, contact).subscribe()
-            else {
-                let sameContacts = this.personClone.contacts.filter(contactClone => {
-                    return JSON.stringify(contact) == JSON.stringify(contactClone)
-                })
-                if (sameContacts.length == 0) this.personService.updateContact(this.person.id, contact.id, contact).subscribe()
+        // Collection Properties (Contacts and Roles)
+        let saveCollectionProps = (personId: number) => {
+            for (let contact of this.person.contacts) {
+                if (contact.id == undefined) {
+                    this.personService.addContact(personId, contact).subscribe()
+                } else {
+                    let notEqual = (contactClone: Contact) => JSON.stringify(contact) != JSON.stringify(contactClone)
+                    let isNew = this.personClone.contacts.every(notEqual)
+                    if (isNew) this.personService.updateContact(personId, contact.id, contact).subscribe()
+                }
             }
-        }
-        for (let contact of this.contactsToDelete) {
-            this.personService.deleteContact(this.person.id, contact.id as number).subscribe()
+            for (let contact of this.contactsToDelete) {
+                this.personService.deleteContact(personId, contact.id as number).subscribe()
+            }
         }
 
         // Non-Collection Properties
-        if (this.person.id == undefined) {
-            this.personService.addPerson(this.person)
-                .subscribe(res => {
-                    if (res["result"].includes("Saved")) {
-                        this.router.navigateByUrl("/person", {state: {success: res["result"]}}).then()
-                    } else {
-                        this.toastService.sendToast(res["result"], {isBad: true})
-                    }
-                })
-        } else {
-            this.personService.updatePerson(this.person, this.person['id'])
-                .subscribe(res => {
-                    if (res["result"].includes("Updated")) {
-                        this.router.navigateByUrl("/person", {state: {success: res["result"]}}).then()
-                    } else {
-                        this.toastService.sendToast(res["result"], {isBad: true})
-                    }
-                })
-        }
+        let saveNonCollectionProps = this.person.id == undefined ?
+            this.personService.addPerson(this.person) : this.personService.updatePerson(this.person, this.person['id'])
+
+        saveNonCollectionProps.subscribe(res => {
+            if (res["result"].includes("Saved")) {
+                console.log(res)
+                saveCollectionProps(res.person["id"])
+                this.router.navigateByUrl("/person", {state: {success: res["result"]}}).then()
+            } else if (res["result"].includes("Updated")) {
+                saveCollectionProps(this.person.id)
+                this.router.navigateByUrl("/person", {state: {success: res["result"]}}).then()
+            } else {
+                this.toastService.sendToast(res["result"], {isBad: true})
+            }
+        })
 
         this.contactsToDelete = []
         this.submitButtonDisabled = false

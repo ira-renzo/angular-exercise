@@ -138,7 +138,6 @@ export class PersonEditComponent implements OnInit {
                 })
         }
 
-        console.log(this.person)
         this.contactsToDelete = []
         this.submitButtonDisabled = false
     }

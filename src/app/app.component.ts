@@ -10,7 +10,7 @@ export class AppComponent {
     routes: MenuItem[] = [
         {label: "Person", routerLink: "person"},
         {label: "Role", routerLink: "role"},
-        {label: "Spring Backend (Heroku Hosted)", routerLink: "api-requests"}
+        {label: "Spring Backend", routerLink: "api-requests"}
     ];
 
 }
